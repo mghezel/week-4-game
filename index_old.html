@@ -5,10 +5,6 @@
   
   <style type="text/css">
 
-    body {
-      background-color: lightblue;
-    }
-
     .different-image {
       width: 70px;
       height: 70px;
@@ -18,36 +14,24 @@
     }
 
     .game-rules {
-      background-color: lightgrey;
-      font-size: 14px;
-      width: 300px;
-      border: 10px darkgrey;
-      padding: 10px;
-      margin: 10px;
+    background-color: lightgrey;
+    width: 300px;
+    border: 10px darkgrey;
+    padding: 25px;
+    margin: 10px;
     }
 
     .numbers {
-      -webkit-column-count: 3; /* Chrome, Safari, Opera */
-      -moz-column-count: 3; /* Firefox */
-      column-count: 3;
-      -webkit-column-gap: 10px; /* Chrome, Safari, Opera */
-      -moz-column-gap: 10px; /* Firefox */
-      column-gap: 10px;
-      background-color: lightgreen;
-      width: 300px;
-      padding: 10px;
-      margin: 10px;
-    }
-
-    #score-header,
-    #score {
-      background-color: green;
-      width: 200px;
-      margin: 10px;
-    }
-
-    #score {
-      height: 100px;
+    -webkit-column-count: 3; /* Chrome, Safari, Opera */
+    -moz-column-count: 3; /* Firefox */
+    column-count: 3;
+    -webkit-column-gap: 10px; /* Chrome, Safari, Opera */
+    -moz-column-gap: 10px; /* Firefox */
+    column-gap: 10px;
+    background-color: lightgreen;
+    width: 300px;
+    padding: 25px;
+    margin: 10px;
     }
 
     
@@ -62,7 +46,7 @@
     </div>
   
   <div class="numbers">
-    Target Number: <span id="number-to-guess" ></span>
+    Target Number: <span id="number-to-guess"></span>
     <p>Wins: <span id="win"></span></p>
     <p>Losses: <span id="loss"></span></p>
   </div>
@@ -70,13 +54,6 @@
   <!-- Note that this div is now empty. We will fill it dynamically -->
   <div id="pics">
   </div>
-
-  <div>
-    <p id="score-header" style="font-weight: bold;">your total score:</p>
-    <p id="score"></p>
-  </div>
-
-  
 
   <!-- JAVASCRIPT  -->
   <!-- ========================================= -->
@@ -98,21 +75,41 @@
       counter: 0,
       wins: 0,
       losses: 0,
-      srcLink : ["assets/images/buttonaftergradient.png","assets/images/hexagon-button_1321268.jpg"
-      ,"assets/images/red-rectangle-button-hi.png","assets/images/Stock-Photo.jpg"]
+      numberOptions : [10, 5, 3, 7],
+      srcLink : ["http://cdn.playbuzz.com/cdn/35910209-2844-45c0-b099-f4d82878d54f/00261fda-4062-4096-81fd-8cf96b9034e8.jpg"]
   };
 
+  //alert("setInit.counter" + setInit.numberOptions.length);
+
+ 
+  //setInit();
+ 
   
+  // array of the images and object instead of function setInit
+
+  // Next we create a for loop to create crystals for every numberOption.
+
   function arrangeImage(){
 
-    for (var i = 0; i < setInit.srcLink.length; i++) {
+    for (var i = 0; i < setInit.numberOptions.length; i++) {
 
+      //var random = Math.floor(Math.random() * 12) + 1;
+
+      // For each iteration, we will create an imageCrystal
       var diffImage = $("<img>");
 
+      // First each crystal will be given the class ".crystal-image".
+      // This will allow the CSS to take effect.
       diffImage.addClass("different-image");
-      
-      diffImage.attr("src", setInit.srcLink[i]);
 
+      // Each imageCrystal will be given a src link to the crystal image
+      diffImage.attr("src", setInit.srcLink);
+
+      // Each imageCrystal will be given a data attribute called data-crystalValue.
+      // This data attribute will be set equal to the array value.
+      //imageCrystal.attr("data-crystalvalue", random);
+
+      // Lastly, each crystal image (with all it classes and attributes) will get added to the page.
       $("#pics").append(diffImage);
 
    }
@@ -122,7 +119,7 @@
   target();
   arrangeImage();
 
-  $(document).ready(function() {
+  //$(document).ready(function() {
 
   // This time, our click event applies to every single crystal on the page. Not just one.
       $(".different-image").on("click", function() {
@@ -136,28 +133,28 @@
         //var crystalValue = ($(this).attr("data-crystalvalue"));
         var crystalValue = diffImage.attr("data-crystalvalue");
         crystalValue = parseInt(crystalValue);
-        
+        // We then add the crystalValue to the user's "counter" which is a global variable.
+        // Every click, from every crystal adds to the global counter.
         setInit.counter += crystalValue;
-        
-        $("#score").text(setInit.counter);
+
+        // All of the same game win-lose logic applies. So the rest remains unchanged.
+        alert("New score: " + setInit.counter);
 
         if (setInit.counter === targetNumber) {
-       
+          //alert("You win!");
           setInit.wins++;
           $("#win").text(setInit.wins);
-          $("#loss").text(setInit.losses);
         }
 
         else if (setInit.counter >= targetNumber) {
-         
+          //alert("You lose!!");
           setInit.losses++;
           $("#loss").text(setInit.losses);
-          $("#win").text(setInit.wins);
         }
 
       });
 
-   });
+  //  });
 
   </script>
 </body>
