@@ -1,0 +1,106 @@
+body {
+      background-color: lightblue;
+    }
+
+    .different-image {
+      width: 70px;
+      height: 70px;
+      padding: 4px;
+      margin-right: 4px;
+     
+    }
+
+    .game-rules {
+      background-color: lightgrey;
+      font-size: 14px;
+      width: 300px;
+      border: 10px darkgrey;
+      padding: 10px;
+      margin: 10px;
+    }
+
+    
+    .numbers {
+  /* Box-model */
+    width: 350px;
+
+    /* Positioning */
+    margin: 1px;
+  }
+
+    #main-content {
+  /* Box-model */
+  width: 100px;
+  padding: 10px;
+  
+    }
+
+    #sidebar {
+      /* Box-model */
+      width: 200px;
+      padding: 10px;
+    }
+
+    #main-content {
+      /* Positioning */
+      float: left;
+
+      /* Visual */
+      background: lightgreen;
+    }
+
+    #sidebar {
+      /* Positioning */
+      float: right;
+
+      /* Visual */
+      background: lightgreen;
+    }     
+
+    #score-header,
+    #score {
+      background-color: green;
+      font-weight: bold;
+      width: 200px;
+      margin: 10px;
+    }
+
+    #score {
+      height: 100px;
+    }
+
+    @media screen and (max-width: 980px) {
+  body {
+    background-color: #333;
+  }
+
+  .number {
+    /* Box-model */
+    width: 100%;
+    padding: 20px;
+  }
+
+  #main-content,
+  #sidebar {
+    width: 100%;
+    background-color: red;
+  }
+
+  #sidebar {
+    margin-top: 40px;
+    height: 170px;
+  }
+
+#pics {
+   width: : 100%;
+  }
+
+  #score-header,
+  #score {
+      
+      width: 100px;
+      margin: 10px;
+    }
+
+}
+

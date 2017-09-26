@@ -3,78 +3,35 @@
 <head>
   <title>Crystal Collector</title>
   
-  <style type="text/css">
-
-    body {
-      background-color: lightblue;
-    }
-
-    .different-image {
-      width: 70px;
-      height: 70px;
-      padding: 4px;
-      margin-right: 4px;
-     
-    }
-
-    .game-rules {
-      background-color: lightgrey;
-      font-size: 14px;
-      width: 300px;
-      border: 10px darkgrey;
-      padding: 10px;
-      margin: 10px;
-    }
-
-    .numbers {
-      -webkit-column-count: 3; /* Chrome, Safari, Opera */
-      -moz-column-count: 3; /* Firefox */
-      column-count: 3;
-      -webkit-column-gap: 10px; /* Chrome, Safari, Opera */
-      -moz-column-gap: 10px; /* Firefox */
-      column-gap: 10px;
-      background-color: lightgreen;
-      width: 300px;
-      padding: 10px;
-      margin: 10px;
-    }
-
-    #score-header,
-    #score {
-      background-color: green;
-      width: 200px;
-      margin: 10px;
-    }
-
-    #score {
-      height: 100px;
-    }
-
-    
-  </style>
+  <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
 </head>
 <body>
 
     <div class="game-rules">
 
-      <p>You will be given a random number at the start of the game.</p><p>There are 4 crystals below. By clicking on each crystal you will add some points to your total score.</p><p>You win the game by matching your total score tothe random number or lose if your total score goes above the target random number.</p><p>The value of the crystal is hidden from you until you click on that.</p><p>The value of the target number and each crystal reset to the new value when the game starts.
+      <p>You will be given a random number at the start of the game.</p><p><br>There are 4 crystals below. By clicking on each crystal you will add some points to your total score.</p><p><br>You win the game by matching your total score tothe random number or lose if your total score goes above the target random number.</p><br><p>The value of the crystal is hidden from you until you click on that.</p><br><p>The value of the target number and each crystal reset to the new value when the game starts.
     </div>
   
-  <div class="numbers">
-    Target Number: <span id="number-to-guess" ></span>
-    <p>Wins: <span id="win"></span></p>
-    <p>Losses: <span id="loss"></span></p>
-  </div>
+    <div class="numbers">
+      <section id="main-content">
+        Target Number: <span id="number-to-guess" ></span>
+     </section>
+     <section id="sidebar">
+        <p>Wins: <span id="win"></span></p>
+        <p>Losses: <span id="loss"></span></p>
+    </section>
+    </div>
 
   <!-- Note that this div is now empty. We will fill it dynamically -->
-  <div id="pics">
-  </div>
+    <div id="pics">
+    </div>
 
-  <div>
-    <p id="score-header" style="font-weight: bold;">your total score:</p>
-    <p id="score"></p>
-  </div>
+    <div>
+      <p id="score-header">your total score:</p>
+      <p id="score"></p>
+    </div>
 
   
 
@@ -84,25 +41,52 @@
 
   <script type="text/javascript">
 
+    //create an object to be used in onclick function to track the score and number of wins 
+    //and losses- it also stores the array of the images
+    //win and loss increment functions that are used in if statements inside onclick function
+
+
+   var setInit = {
+
+      score: 0,
+      wins: 0,
+      losses: 0,
+      srcLink : ["assets/images/buttonaftergradient.png","assets/images/hexagon-button_1321268.jpg"
+      ,"assets/images/red-rectangle-button-hi.png","assets/images/Stock-Photo.jpg"],      
+
+      win: function(){
+        return this.wins;
+      },
+
+      loss: function(){
+        return this.losses;
+      },
+
+      winIncrement: function(){
+        this.wins++;
+      },
+
+      lossIncrement: function(){
+        this.losses++;
+      }
+  }; 
+
+  //create random function that gets 2 numbers and return a number between the two
+
   function getRandom(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   }
+
+  //text the targetnumber to div
 
   function target(){
   
     $("#number-to-guess").text(targetNumber);
   }
 
-  var setInit = {
+ //define the function to create div with class and insert the pictures then append to the div parent
+ //with jquery
 
-      counter: 0,
-      wins: 0,
-      losses: 0,
-      srcLink : ["assets/images/buttonaftergradient.png","assets/images/hexagon-button_1321268.jpg"
-      ,"assets/images/red-rectangle-button-hi.png","assets/images/Stock-Photo.jpg"]
-  };
-
-  
   function arrangeImage(){
 
     for (var i = 0; i < setInit.srcLink.length; i++) {
@@ -118,46 +102,66 @@
    }
   }
 
-  var targetNumber = getRandom(19,120);
-  target();
-  arrangeImage();
+  //call the fuctions
+
+  var targetNumber = getRandom(19,120);  //generate target number between 19 and 20
+  target(); //text the target on DOM
+  arrangeImage(); //arrange images on DOM
+
+  
 
   $(document).ready(function() {
 
-  // This time, our click event applies to every single crystal on the page. Not just one.
+  // This time, our click event applies to every single crystal image on the page. Not just one.
       $(".different-image").on("click", function() {
 
-        
+        //generate random number between 1 and 12
         var random = getRandom(1,12);
+
         var diffImage = $("<img>");
+
+        //assign the random number to the crystal image through data-crystalvalue
   
         diffImage.attr("data-crystalvalue", random);
-        
-        //var crystalValue = ($(this).attr("data-crystalvalue"));
+
+        //assign data-crystalvalue to a variable
+
         var crystalValue = diffImage.attr("data-crystalvalue");
+
+        //convert the variable to integer
+
         crystalValue = parseInt(crystalValue);
-        
-        setInit.counter += crystalValue;
-        
-        $("#score").text(setInit.counter);
 
-        if (setInit.counter === targetNumber) {
-       
-          setInit.wins++;
-          $("#win").text(setInit.wins);
-          $("#loss").text(setInit.losses);
+        // add crystalValue to the score which is set to zero at the start of the
+        //game- accessing to var score through object setInit
+        
+        setInit.score += crystalValue;
+                
+        $("#score").text(setInit.score);
+
+        if(setInit.score === targetNumber) { 
+
+          //if the score equals target number, call the winIncrement function in the object that basically increment the variable wins      
+          
+          setInit.winIncrement();          
         }
 
-        else if (setInit.counter >= targetNumber) {
-         
-          setInit.losses++;
-          $("#loss").text(setInit.losses);
-          $("#win").text(setInit.wins);
+        else if (setInit.score > targetNumber) {  
+
+          //if the score greater than target number, call the lossIncrement function in the object
+          //that basically increment the variable losses
+        
+          setInit.lossIncrement();          
         }
+
+        $("#loss").text(setInit.loss());  //show the losses
+        $("#win").text(setInit.win());    //show the wins
 
       });
 
    });
+
+
 
   </script>
 </body>
